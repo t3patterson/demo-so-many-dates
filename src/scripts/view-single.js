@@ -8,13 +8,15 @@ const SingleDaterView = Backbone.View.extend({
 	},
 
 	navigateToDater: function(evt){
-		// console.log(evt.target.dataset)
 
 		window.location.hash = `#profile/${evt.target.dataset.bioid}`
 	},
 
 	_buildHTMLTemplate: function(collData, atIndex){
-		//C & P'd from app.js
+		console.log(selectedIndex)
+		// ***********************************
+		//(4) logic for handling
+
 		let singleDaterModel = collData.models[atIndex]
 		let prevModel = collData.models[atIndex - 1 ]
 		let nextModel = collData.models[atIndex + 1 ]
