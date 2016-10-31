@@ -15,7 +15,7 @@ const DaterCollection = Backbone.Collection.extend({
 	initialize: function(qryStParams){
 		let addedQryStr = ''
 		if(typeof qryStParams !== 'undefined') { addedQryStr = `&${qryStParams}` }
-		this.url = `http://congress.api.sunlightfoundation.com/legislators?apikey=7ba96d266cc84b168fab4d878d9aa141${addedQryStr}`
+		this.url = `https://congress.api.sunlightfoundation.com/legislators?apikey=7ba96d266cc84b168fab4d878d9aa141${addedQryStr}`
 	}
 })
 
