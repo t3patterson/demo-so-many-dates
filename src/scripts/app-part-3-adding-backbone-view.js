@@ -4,8 +4,6 @@ const Backbone = require('backbone')
 const { DaterModel, DaterCollection } = require('./model-dater.js')
 
 const MultiDaterView = require('./view-multi.js')
-const SingleDaterView = require('./view-single.js')
-
 
 const AppRouter = Backbone.Router.extend({
 	routes: {
@@ -14,13 +12,8 @@ const AppRouter = Backbone.Router.extend({
 	},
 
 	showSingle: function(bioId){
-		let daterCollOfOneInstance = new DaterCollection(`bioguide_id=${bioId}`)
-		daterCollOfOneInstance.fetch().then(function(){
-			console.log(daterCollOfOneInstance)
-			// document.querySelector('#container').innerHTML = `<h1>Showing the profile for: ${daterCollOfOneInstance.models[0].get('first_name')}</h1>`
-			let singleDaterViewInstance = new SingleDaterView()
-			singleDaterViewInstance.render(daterCollOfOneInstance)
-		})
+		document.querySelector('#container').innerHTML = `<h1>Showing the profile for: ${id}</h1>`
+		
 
 
 	},
@@ -50,3 +43,15 @@ const AppRouter = Backbone.Router.extend({
 })
 
 var app = new AppRouter()
+
+var UserModel = Backbone.Model.extend({})
+
+var UserColl = Backbone.Collection.extend({
+	model: UserModel,
+	url: "https://api.myjson.com/bins/31m4i"
+})
+
+var collinst = new UserColl()
+collinst.fetch().then(function(d){
+	console.log('so cool:', collinst)
+})
