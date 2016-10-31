@@ -2,12 +2,39 @@ const Backbone = require('backbone')
 
 const SingleDaterView = Backbone.View.extend({
 	el: '#container',
+	//
+	events: {
+		"click .arrow" : "navigateToDater"
+	},
 
+	navigateToDater: function(evt){
+		// console.log(evt.target.dataset)
 
-	_buildHTMLTemplate: function(collData){
+		window.location.hash = `#profile/${evt.target.dataset.bioid}`
+	},
+
+	_buildHTMLTemplate: function(collData, atIndex){
 		//C & P'd from app.js
-		let singleDaterModel = collData.models[0]
-		return `<div class="single-profile">
+		let singleDaterModel = collData.models[atIndex]
+		let prevModel = collData.models[atIndex - 1 ]
+		let nextModel = collData.models[atIndex + 1 ]
+
+		let leftArrowHTML = ''
+		let rightArrowHTML = ''
+
+		if (prevModel){
+			leftArrowHTML = `<a class="left-arrow arrow" data-bioid="${prevModel.get('bioguide_id')}">&lt;</a>`
+		}
+		if (nextModel){
+			rightArrowHTML = `<a class="right-arrow arrow" data-bioid="${nextModel.get('bioguide_id')}">&gt;</a>`
+		}
+
+		return  `
+					${leftArrowHTML}
+					${rightArrowHTML}
+
+					<div class="single-profile">
+
 					  <div class="main">
 						 <img src="http://flathash.com/${ singleDaterModel.get('bioguide_id')}" />
 						 <h4> &hearts; ${ singleDaterModel.get('district') }   </h4>
@@ -31,8 +58,8 @@ const SingleDaterView = Backbone.View.extend({
 				 </div>`
 	},
 
-	render: function(collectionData){
-		this.el.innerHTML = this._buildHTMLTemplate(collectionData)
+	render: function(collectionData, i){
+		this.el.innerHTML = this._buildHTMLTemplate(collectionData, i)
 	}
 })
 

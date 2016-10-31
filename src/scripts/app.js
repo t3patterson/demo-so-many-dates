@@ -15,26 +15,36 @@ const AppRouter = Backbone.Router.extend({
 
 	showSingle: function(bioId){
 		let daterCollOfOneInstance = new DaterCollection(`bioguide_id=${bioId}`)
-		daterCollOfOneInstance.fetch().then(function(){
-			console.log(daterCollOfOneInstance)
-			// document.querySelector('#container').innerHTML = `<h1>Showing the profile for: ${daterCollOfOneInstance.models[0].get('first_name')}</h1>`
-			let singleDaterViewInstance = new SingleDaterView()
-			singleDaterViewInstance.render(daterCollOfOneInstance)
-		})
+		let singleDaterViewInstance = new SingleDaterView()
 
+		if (typeof this.datersColl === 'undefined'){
+			daterCollOfOneInstance.fetch().then(function(){
+				console.log(daterCollOfOneInstance)
+				// document.querySelector('#container').innerHTML = `<h1>Showing the profile for: ${daterCollOfOneInstance.models[0].get('first_name')}</h1>`
+				singleDaterViewInstance.render(daterCollOfOneInstance, 0)
+			})
+		} else {
+			var selectedIndex = this.datersColl.findIndex(function(modl, i){
+				// console.log(modl)
+				return modl.get('bioguide_id') === bioId
+			})
 
+			console.log(selectedIndex)
+			singleDaterViewInstance.render(this.datersColl, selectedIndex)
+		}
 	},
 
 
 	showMultiHome: function(){
-		document.querySelector('#container').innerHTML = "<h1>Our eligible daters</h1>"
+		let self = this
 		let daterCollInstance = new DaterCollection()
 		daterCollInstance.fetch().then(function(){
-
+			self.datersColl = daterCollInstance
 			// let namesStr = daterCollInstance.models.map(function(modl){
 			// 	return `<h3>${modl.get('first_name')} ${modl.get('last_name')}</h3>`
 			// }).join('')
 			let multiViewInstance = new MultiDaterView()
+
 			multiViewInstance.render(daterCollInstance)
 
 
